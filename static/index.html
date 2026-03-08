@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <!-- 文字コード・表示の基本設定 -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>朝イチ気分チェック</title>
+  <!-- 見た目（色・レイアウト）は style.css で指定 -->
+  <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+  <!-- メインの内容をまとめる枠 -->
+  <div class="container">
+    <!-- タイトル・サブタイトル -->
+    <header>
+      <h1>朝イチ気分チェック</h1>
+      <p class="subtitle">今日の気分を記録しよう</p>
+    </header>
+
+    <!-- 今日の気分：記録済み or 未記録（JSで書き換える） -->
+    <section class="today" id="today-section">
+      <p class="today-status" id="today-status">読み込み中…</p>
+    </section>
+
+    <!-- 直近14日分の棒グラフ（JSで中身を描く） -->
+    <section class="chart-section">
+      <h2>直近の推移</h2>
+      <div class="chart" id="chart" aria-label="直近14日間の気分の推移"></div>
+      <p class="chart-caption">左が古い日 → 右が今日。棒の高さが気分（1〜5）です。</p>
+    </section>
+
+    <!-- 過去の記録一覧（JSでAPIから取得して表示） -->
+    <section class="history">
+      <h2>過去の記録</h2>
+      <ul class="mood-list" id="mood-list"></ul>
+    </section>
+
+    <!-- サーバーが止まったときの案内 -->
+    <section class="server-help">
+      <p class="server-help-title">「読み込み中」のまま・ボタンが効かないとき</p>
+      <p class="server-help-text">サーバーが止まっています。フォルダ <strong>daily-mood-checkin</strong> にある「<strong>サーバーを起動.command</strong>」をダブルクリックしてから、このページを再読み込みしてください。</p>
+    </section>
+  </div>
+
+  <!-- ポップアップ：その日まだ記録していないときだけ表示。1〜5のボタンで送信 -->
+  <div class="overlay" id="overlay" aria-hidden="true">
+    <div class="modal" role="dialog" aria-labelledby="modal-title">
+      <h2 id="modal-title">今日の気分は？</h2>
+      <p class="modal-desc">5段階で選んでください</p>
+      <div class="scores" id="scores">
+        <button type="button" class="score-btn" data-score="1">1</button>
+        <button type="button" class="score-btn" data-score="2">2</button>
+        <button type="button" class="score-btn" data-score="3">3</button>
+        <button type="button" class="score-btn" data-score="4">4</button>
+        <button type="button" class="score-btn" data-score="5">5</button>
+      </div>
+      <p class="score-labels">
+        <span>悪い</span>
+        <span>良い</span>
+      </p>
+    </div>
+  </div>
+
+  <!-- 動き・API呼び出しは app.js で処理（defer＝HTML読み込み後に実行） -->
+  <script src="static/app.js?v=5" defer></script>
+</body>
+</html>

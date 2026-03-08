@@ -1,0 +1,5 @@
+mood.db
+__pycache__
+.git
+*.md
+docs

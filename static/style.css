@@ -1,0 +1,253 @@
+/* ========== 共通：全要素の枠計算を統一 ========== */
+* {
+  box-sizing: border-box;
+}
+
+/* ========== ページ全体：フォント・背景・余白 ========== */
+body {
+  font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", sans-serif;
+  margin: 0;
+  padding: 1rem;
+  background: #f5f0eb;
+  color: #333;
+  min-height: 100vh;
+}
+
+/* ========== メインの幅・中央寄せ ========== */
+.container {
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+/* ========== ヘッダー（タイトル・サブタイトル） ========== */
+header {
+  margin-bottom: 1.5rem;
+}
+
+h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0 0 0.25rem 0;
+}
+
+.subtitle {
+  font-size: 0.9rem;
+  color: #666;
+  margin: 0;
+}
+
+/* ========== 今日の気分ブロック（白枠） ========== */
+.today {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+
+.today-status {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.today-status.recorded {
+  color: #2d6a4f;
+  font-weight: 500;
+}
+
+/* ========== 直近の推移（グラフエリア） ========== */
+.chart-section {
+  margin-bottom: 1.5rem;
+}
+
+.chart-section h2 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 0.75rem 0;
+  color: #555;
+}
+
+.chart {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2px;
+  min-height: 100px;
+  height: 100px;
+  padding: 12px 8px 8px;
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid #e8e8e8;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+
+.chart-bar-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  min-width: 0;
+  height: 100%;
+}
+
+.chart-bar {
+  width: 80%;
+  max-width: 20px;
+  min-height: 6px;
+  border-radius: 4px 4px 0 0;
+  background: #2d6a4f;
+  transition: height 0.2s;
+  flex-shrink: 0;
+}
+
+.chart-bar.empty {
+  background: #e8e8e8;
+}
+
+.chart-label {
+  font-size: 0.6rem;
+  color: #888;
+  margin-top: 6px;
+  flex-shrink: 0;
+}
+
+.chart-caption {
+  font-size: 0.75rem;
+  color: #888;
+  margin: 0.5rem 0 0 0;
+}
+
+/* ========== サーバーが止まったときの案内（黄っぽい枠） ========== */
+.server-help {
+  margin-top: 1.5rem;
+  padding: 0.75rem 1rem;
+  background: #fff8e6;
+  border: 1px solid #e8dca0;
+  border-radius: 8px;
+  font-size: 0.8rem;
+}
+
+.server-help-title {
+  margin: 0 0 0.35rem 0;
+  font-weight: 600;
+  color: #6b5a00;
+}
+
+.server-help-text {
+  margin: 0;
+  color: #555;
+}
+
+/* ========== 過去の記録一覧 ========== */
+.history h2 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 0.75rem 0;
+  color: #555;
+}
+
+.mood-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.mood-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6rem 0.75rem;
+  background: #fff;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+}
+
+.mood-list .day {
+  color: #555;
+}
+
+.mood-list .score {
+  font-weight: 600;
+  color: #2d6a4f;
+}
+
+.mood-list .empty {
+  color: #888;
+  padding: 1rem;
+  text-align: center;
+}
+
+/* ========== ポップアップ（オーバーレイ・モーダル） ========== */
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.overlay[aria-hidden="false"] {
+  display: flex;  /* 表示するときは flex で中央にモーダルを置く */
+}
+
+.modal {
+  background: #fff;
+  border-radius: 16px;
+  padding: 1.75rem;
+  max-width: 320px;
+  width: 90%;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+}
+
+.modal h2 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.25rem;
+}
+
+.modal-desc {
+  margin: 0 0 1.25rem 0;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.scores {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+}
+
+.score-btn {
+  width: 48px;
+  height: 48px;
+  border: 2px solid #ddd;
+  border-radius: 50%;
+  background: #fff;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.score-btn:hover {
+  border-color: #2d6a4f;
+  background: #e8f5e9;
+}
+
+.score-btn:focus {
+  outline: 2px solid #2d6a4f;
+  outline-offset: 2px;
+}
+
+.score-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: #888;
+  padding: 0 0.25rem;
+}

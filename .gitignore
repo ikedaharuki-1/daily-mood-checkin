@@ -1,0 +1,8 @@
+mood.db
+__pycache__
+*.pyc
+.venv
+venv
+.env
+scripts/launchd.log
+scripts/launchd.err.log
