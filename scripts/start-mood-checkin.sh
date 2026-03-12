@@ -1,25 +1,21 @@
 #!/bin/bash
-# Macログイン時にサーバーを起動し、ブラウザで開く
+# Macログイン時に：最新コードを git pull → サーバー起動 → ブラウザで開く
+# ※ 実際に launchd から使うのはホーム直下の ~/start-mood-checkin.sh（このファイルをコピーして使う）
 
-PROJECT_DIR="/Users/ikeda-haruki1/Documents/daily-mood-checkin"
+PROJECT_DIR="/Users/ikeda-haruki1/daily-mood-checkin"
 cd "$PROJECT_DIR" || exit 1
 
-# venv があればそれを使う
+# 最新のコードを GitHub から取得（失敗してもローカルのまま起動する）
+git pull origin main 2>/dev/null || true
+
 if [ -f .venv/bin/python ]; then
   PYTHON=".venv/bin/python"
 else
   PYTHON="python3"
 fi
 
-# バックグラウンドでサーバー起動
 $PYTHON app.py &
 PID=$!
-
-# サーバーが立ち上がるまで少し待つ
 sleep 3
-
-# デフォルトブラウザで開く
 open "http://localhost:5001"
-
-# サーバーが落ちるまで待つ（このスクリプトが生きている限りサーバーも動く）
 wait $PID

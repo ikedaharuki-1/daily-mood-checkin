@@ -8,7 +8,51 @@
 ## 前提
 
 - **GitHub** にこのプロジェクトのコードが入っていること（リポジトリが1つあること）
-- まだなら：GitHub でリポジトリを作り、このフォルダから `git push` でコードを送る
+- **いまの状態**：このフォルダ（daily-mood-checkin）ではすでに `git init` と初回コミットまで済んでいます。あとは GitHub にリポジトリを作り、push するだけです。
+
+### GitHub に push する（まだの場合）
+
+1. **GitHub でリポジトリを新規作成**
+   - https://github.com/new を開く
+   - **Repository name** に `daily-mood-checkin` など好きな名前を入力
+   - **Public** のまま
+   - **「Add a README file」にチェックを入れない**（既にローカルにコードがあるため）
+   - **Create repository** をクリック
+
+2. **表示された「…or push an existing repository from the command line」のコマンドを、このフォルダで実行する**
+   - このPCが **ikedaharuki-1** で GitHub に接続している場合、**ikedaharuki-1 のリポジトリ**を origin にするとそのまま push できます（下の「アカウントを ikedaharuki-1 にそろえる」を参照）。
+   - それ以外の場合は、リポジトリの所有者のアカウント用に HTTPS + Token などで push。→ 下の「push が Permission denied のとき」を参照。
+
+### アカウントを ikedaharuki-1 にそろえる（このPCの GitHub が ikedaharuki-1 の場合）
+
+このPCでは **ikedaharuki-1** で GitHub に接続しているなら、**リポジトリも ikedaharuki-1 のもの**にすると、そのまま push できます。
+
+1. **GitHub に ikedaharuki-1 でログイン**し、https://github.com/new で **新規リポジトリ**を作成する。  
+   - リポジトリ名：`daily-mood-checkin`（任意）  
+   - Public、README は追加しない  
+
+2. **リモートを ikedaharuki-1 のリポジトリに変更**して push する：
+   ```bash
+   cd ~/daily-mood-checkin
+   git remote set-url origin git@github.com:ikedaharuki-1/daily-mood-checkin.git
+   git push -u origin main
+   ```
+3. **Render** では、GitHub 連携で **ikedaharuki-1 / daily-mood-checkin** を選べば、同じようにデプロイできます。
+
+---
+
+### push が Permission denied のとき
+
+- **原因**：このPCで使っている GitHub の認証（SSH 鍵）が、リポジトリの所有者（例：ikedaharuki）と違うアカウント（例：ikedaharuki-1）になっている。
+- **対処（どれかでOK）**  
+  1. **HTTPS で push する**  
+     - `git remote set-url origin https://github.com/ikedaharuki/daily-mood-checkin.git` で URL を HTTPS に変更  
+     - `git push -u origin main` を実行  
+     - ユーザー名・パスワードを聞かれたら、GitHub の **ユーザー名** と **Personal Access Token（パスワードの代わり）** を入力（Token は GitHub → Settings → Developer settings → Personal access tokens で作成）  
+  2. **ikedaharuki 用の SSH 鍵をこのPCで使う**  
+     - そのアカウント用の SSH 鍵を用意し、`~/.ssh/config` でこのリポジトリだけその鍵を使うように設定してから push。  
+  3. **リポジトリの所有者が、このPCのアカウントを Collaborator に追加する**  
+     - GitHub のリポジトリ → Settings → Collaborators で、このPCで使っている GitHub アカウントを追加。追加されたら同じ SSH で push できる。
 
 ---
 
@@ -37,11 +81,16 @@
 | 項目 | 入力する内容 |
 |------|----------------|
 | **Name** | 例：`mood-checkin`（サービスの名前。URL の一部になる） |
-| **Region** | そのままでOK（例：Singapore など近い地域） |
-| **Branch** | `main` のまま（使っているブランチ名） |
-| **Runtime** | **Python 3** |
-| **Build Command** | 次のとおり **そのままコピーして貼り付け**：<br>`pip install -r requirements.txt` |
-| **Start Command** | 次のとおり **そのままコピーして貼り付け**：<br>`gunicorn --bind 0.0.0.0:$PORT app:app` |
+| **Language / Runtime** | **必ず「Python 3」を選ぶ**（Docker ではなく）。選ぶと「Build Command」「Start Command」の入力欄が出ます。 |
+| **Branch** | `main` のまま |
+| **Region** | そのままでOK（Oregon や Singapore など） |
+| **Root Directory** | 空のままでOK |
+| **Build Command** | `pip install -r requirements.txt` |
+| **Start Command** | `gunicorn --bind 0.0.0.0:$PORT app:app` |
+| **Instance Type** | **Free** のまま |
+
+**Advanced** を開いている場合：
+- **Health Check Path** が `/healthz` になっているなら、このアプリにはそのURLがないので **`/`** に変更するか、空にする。
 
 **ポイント**
 
