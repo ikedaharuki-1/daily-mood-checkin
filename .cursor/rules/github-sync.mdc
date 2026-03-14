@@ -1,0 +1,27 @@
+---
+description: GitHub への反映・同期の指示時に実行するルール
+globs: 
+alwaysApply: true
+---
+
+# GitHub 連携・同期
+
+ユーザーが次のような指示をしたときは、このリポジトリ（daily-mood-checkin）で GitHub へ反映する処理を行う。
+
+## トリガーになる指示の例
+
+- 「GitHub に反映して」「GitHub に連携して」「GitHub 連携して」
+- 「GitHub に同期して」「同期して」「push して」
+- 「変更を GitHub に上げて」「コミットして push して」
+
+## やること
+
+1. `cd ~/daily-mood-checkin`（またはプロジェクトルート）で作業する。
+2. `git status` で変更を確認する。
+3. 変更があれば `git add`（対象ファイルまたは `-A`）→ `git commit -m "..."` → `git push origin main` を実行する。
+4. コミットメッセージは変更内容に沿ったものにする。ユーザーがメッセージを指定していればそれを使う。
+
+## 注意
+
+- リポジトリは daily-mood-checkin のみ。他リポジトリの同期は指示がなければ行わない。
+- コンフリクトや push 拒否が出た場合は、状況を説明して対処案を出す。
