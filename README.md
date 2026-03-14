@@ -55,11 +55,25 @@ pip install -r requirements.txt
 launchctl unload ~/Library/LaunchAgents/com.moodcheckin.plist
 ```
 
+### プロジェクトの場所を変えた場合・ログイン時に開かない場合
+
+Launch Agent の plist には**絶対パス**が入っています。プロジェクトを `~/daily-mood-checkin` 以外に移した、または一度 Documents など別の場所に置いていた場合は、古いパスが `~/Library/LaunchAgents/com.moodcheckin.plist` に残っていることがあります。  
+そのときは **plist を上書きして再読み込み**してください。
+
+```bash
+cp ~/daily-mood-checkin/scripts/com.moodcheckin.plist ~/Library/LaunchAgents/
+launchctl unload ~/Library/LaunchAgents/com.moodcheckin.plist
+launchctl load ~/Library/LaunchAgents/com.moodcheckin.plist
+launchctl start com.moodcheckin
+```
+
+あわせて、起動スクリプトがホーム直下にあることを確認してください（`~/start-mood-checkin.sh`）。ない場合は `cp ~/daily-mood-checkin/scripts/start-mood-checkin.sh ~/` でコピーし、`chmod +x ~/start-mood-checkin.sh` で実行可能にしてください。
+
 ---
 
 ## 動きのイメージ
 
-- **Mac にログイン** → スクリプトが動く → サーバー起動 → ブラウザで気分チェックのページが開く
+- **Mac にログイン** → スクリプトが動く → サーバー起動 → **約12秒後**にブラウザで気分チェックのページが開く（ログイン直後は GUI がまだ準備できていないため、少し遅らせてから開いています）
 - その日まだ記録していなければ **ポップアップで 1〜5 を選択** → 送信で記録
 - 記録済みならポップアップは出ず、過去の一覧だけ表示
 

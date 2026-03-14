@@ -16,6 +16,6 @@ fi
 
 $PYTHON app.py &
 PID=$!
-sleep 3
-open "http://localhost:5001"
+# ログイン直後は GUI がまだ準備できていないことがあるので、ブラウザは少し遅れて開く
+( sleep 12 && open "http://localhost:5001" ) &
 wait $PID
