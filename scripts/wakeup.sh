@@ -1,5 +1,12 @@
 #!/bin/bash
-# スリープ復帰時にdaily-mood-checkinをブラウザで開く
+# スリープ復帰時にdaily-mood-checkinをブラウザで開く（その日の初回のみ）
+
+# 今日すでに開いていたらスキップ
+FLAG="/tmp/mood-checkin-opened-$(date +%Y-%m-%d)"
+if [ -f "$FLAG" ]; then
+  exit 0
+fi
+touch "$FLAG"
 
 # GUIセッションが準備できるまで少し待つ
 sleep 5
