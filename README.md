@@ -71,9 +71,44 @@ launchctl start com.moodcheckin
 
 ---
 
+## 3. スリープ復帰時にもブラウザを開く
+
+ログイン時だけでなく、**スリープから復帰したときにも**ブラウザが自動で開くようにします。
+`sleepwatcher` というツールがスリープ復帰を検知して `~/.wakeup` スクリプトを実行します。
+
+### 手順
+
+1. **sleepwatcher をインストール**
+
+   ```bash
+   brew install sleepwatcher
+   ```
+
+2. **wakeup スクリプトをホームに配置**
+
+   ```bash
+   cp ~/daily-mood-checkin/scripts/wakeup.sh ~/.wakeup
+   chmod +x ~/.wakeup
+   ```
+
+3. **サービスとして登録（ログイン時に自動起動）**
+
+   ```bash
+   brew services start sleepwatcher
+   ```
+
+### やめたいとき
+
+```bash
+brew services stop sleepwatcher
+```
+
+---
+
 ## 動きのイメージ
 
 - **Mac にログイン** → スクリプトが動く → サーバー起動 → **約12秒後**にブラウザで気分チェックのページが開く（ログイン直後は GUI がまだ準備できていないため、少し遅らせてから開いています）
+- **スリープから復帰** → sleepwatcher が `~/.wakeup` を実行 → **約5秒後**にブラウザで気分チェックのページが開く
 - その日まだ記録していなければ **ポップアップで 1〜5 を選択** → 送信で記録
 - 記録済みならポップアップは出ず、過去の一覧だけ表示
 
